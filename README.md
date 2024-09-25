@@ -49,7 +49,7 @@ Docker Compose
 1) Clone the repository:
 
 ```
-git clone https://github.com/rajabhupati/batch-processing-data-system.git
+git clone https://github.com/rajabhupati/data-processing-system.git
 cd batch-processing-data-system
 ```
 
