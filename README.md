@@ -19,7 +19,7 @@ API Access: FastAPI serves the processed data through REST endpoints.
 
 **Project Structure**
 
-'''
+```
 /data
     /checkpoint           # Checkpoints for Spark streaming
     /kafka                # Kafka producer and consumer scripts
@@ -35,7 +35,7 @@ API Access: FastAPI serves the processed data through REST endpoints.
 /spark-base
     /Dockerfile           # Dockerfile for the Spark base image
     /requirements.txt     # Python dependencies for Spark processing
- '''   
+```
 
 Setup and Running the Project
 
@@ -48,20 +48,22 @@ Docker Compose
 **Steps to Run**
 1) Clone the repository:
 
-'''
+```
 git clone https://github.com/rajabhupati/batch-processing-data-system.git
 cd batch-processing-data-system
-'''
+```
 
 2) Build and start the containers: Use Docker Compose to build and start the necessary services:
-docker-compose up --build
+```docker-compose up --build```
 
 3) Kafka Topic Creation: Make sure the Kafka topic (taxi_trips) is created manually before starting Spark processing:
+```
 docker exec -it usecase_project-kafka-1 /opt/bitnami/kafka/bin/kafka-topics.sh --create --topic taxi_trips --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+```
 
 4) Send sample data through kafka using following command
 
-   docker exec -it usecase_project-kafka-1  kafka-console-producer.sh --broker-list kafka:9092 --topic taxi_trips
+ ```  docker exec -it usecase_project-kafka-1  kafka-console-producer.sh --broker-list kafka:9092 --topic taxi_trips```
 
    Sample data : 
 
