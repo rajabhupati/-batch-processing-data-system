@@ -19,6 +19,7 @@ API Access: FastAPI serves the processed data through REST endpoints.
 
 **Project Structure**
 
+'''
 /data
     /checkpoint           # Checkpoints for Spark streaming
     /kafka                # Kafka producer and consumer scripts
@@ -34,6 +35,7 @@ API Access: FastAPI serves the processed data through REST endpoints.
 /spark-base
     /Dockerfile           # Dockerfile for the Spark base image
     /requirements.txt     # Python dependencies for Spark processing
+ '''   
 
 Setup and Running the Project
 
@@ -46,8 +48,10 @@ Docker Compose
 **Steps to Run**
 1) Clone the repository:
 
+'''
 git clone https://github.com/rajabhupati/batch-processing-data-system.git
 cd batch-processing-data-system
+'''
 
 2) Build and start the containers: Use Docker Compose to build and start the necessary services:
 docker-compose up --build
