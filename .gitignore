@@ -1,0 +1,31 @@
+# Ignore checkpoint files
+data/checkpoint/
+data/checkpoint/**
+
+# Ignore Kafka data files
+data/kafka/
+
+# Ignore output files
+data/output/
+
+# Ignore specific output file types
+*.crc
+*.json
+
+# Ignore Spark metadata
+data/output/processed_trips/_spark_metadata/
+
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+
+# Ignore Docker-related files
+*.env
+.dockerignore
+
+# Ignore FastAPI and Streamlit-related files if unnecessary
+fastapi/*.log
+streamlit/*.log
+
+# Add more as needed for other unwanted files
+
