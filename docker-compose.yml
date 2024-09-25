@@ -1,0 +1,65 @@
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    platform: linux/amd64
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: bitnami/kafka:latest
+    platform: linux/amd64
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10485760
+      KAFKA_REQUEST_TIMEOUT_MS: 60000
+    depends_on:
+      - zookeeper
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /Users/rajabhupati/usecase_project/data/kafka:/data/kafka
+
+  spark:
+    image: bitnami/spark:latest
+    platform: linux/amd64
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka  
+    hostname: spark
+    
+    volumes:
+      - /Users/rajabhupati/usecase_project/data:/data
+    command: bash -c "/opt/bitnami/spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.kafka:kafka-clients:3.5.2 --master local[*] /data/spark/spark_processing.py"
+    
+
+
+
+  api:
+    build: ./fastapi
+    platform: linux/amd64
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+    volumes:
+      - /Users/rajabhupati/usecase_project/data:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      - spark
+
+  streamlit:
+    build: ./streamlit
+    platform: linux/amd64
+    command: streamlit run app.py
+    volumes:
+      - /Users/rajabhupati/usecase_project/data:/data
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
